@@ -3,6 +3,7 @@ class Square {
     this.x = 0
     this.y = 0
     this.side = 20
+    this.color = 'FFFFFF'
   }
 
   updateY (maxY) {
@@ -18,21 +19,28 @@ class GameController {
     this.InProgress = false
     this.Items = []
     this.Score = 0
-    this.MaxPositionSquare = [this.MaxX, this.MaxY]
+    this.MaxPositionSquare = {'x': MaxX, 'y': MaxY}
   }
   addItem () {
     this.Items.push(new Square())
   }
   moveItems () {
-    
-  }
-  checkClick (pX, pY) {
-    if (this.isClickOnSquare(pX, pY)) {
-      this.increaseScore()    
+    for (let i = 0; i < this.Items.length; i++) {
+      this.items[i].updateY(this.MaxPositionSquare[1])
     }
   }
 
-  increaseScore() {
+  checkClick (pX, pY) {
+    if (this.isClickOnSquare(pX, pY)) {
+      this.increaseScore()
+    }
+  }
+
+  isClickOnSquare (pX, pY) {
+    return false
+  }
+
+  increaseScore () {
     this.Score += 1
   }
 }
@@ -59,7 +67,7 @@ class GameScreen {
     })
   }
 
-  updateScoreElementValue(value) {
+  updateScoreElementValue (value) {
     this.scoreElement.innerHTML = value
   }
 }
@@ -67,7 +75,12 @@ class GameScreen {
 class CanvasWrapper {
   constructor (canvas) {
     this.canvasElement = canvas
+    this.offsetX = canvas.offsetLeft
+    this.offsetY = canvas.offsetTop
+    this.width = canvas.width
+    this.height = canvas.height
   }
+
   get canvas () {
     return this.canvasElement
   }
@@ -75,8 +88,8 @@ class CanvasWrapper {
 
 const initGame = () => {
   let gameScreen = new GameScreen()
-  let maxX = gameScreen.canvasWrapper.canvas.width
-  let maxY = gameScreen.canvasWrapper.canvas.height
+  let maxX = gameScreen.canvasWrapper.width
+  let maxY = gameScreen.canvasWrapper.height
   let game = new GameController(maxX, maxY)
   gameScreen.addStartEventListener(game.start)
   gameScreen.addStopEventListener(game.stop)
