@@ -19,14 +19,16 @@ class GameController {
     this.InProgress = false
     this.Items = []
     this.Score = 0
-    this.MaxPositionSquare = {'x': MaxX, 'y': MaxY}
+    this.MaxPosition = {'x': MaxX, 'y': MaxY}
   }
+
   addItem () {
     this.Items.push(new Square())
   }
+
   moveItems () {
     for (let i = 0; i < this.Items.length; i++) {
-      this.items[i].updateY(this.MaxPositionSquare[1])
+      this.items[i].updateY(this.MaxPosition.x)
     }
   }
 
@@ -53,17 +55,19 @@ class GameScreen {
     this.canvasWrapper = new CanvasWrapper(document.getElementById('canvas'))
   }
 
-  AddStartEventListener (Listener) {
-    this.startBtn.addEventListener('click', Listener)
+  AddStartEventListener (listener) {
+    this.startBtn.addEventListener('click', listener)
   }
-  AddStopEventListener (Listener) {
-    this.stopBtn.addEventListener('click', Listener)
+
+  AddStopEventListener (listener) {
+    this.stopBtn.addEventListener('click', listener)
   }
-  AddCanvasEventListener (Listener) {
+
+  AddCanvasEventListener (listener) {
     this.CanvasWrapper.canvas.addEventListener('click', (event) => {
-      let x = event.pageX - this.CanvasWrapper.canvas.offsetLeft
-      let y = event.pageY - this.CanvasWrapper.canvas.offsetTop
-      Listener(x, y)
+      let x = event.pageX - this.CanvasWrapper.offsetLeft
+      let y = event.pageY - this.CanvasWrapper.offsetTop
+      listener(x, y)
     })
   }
 
