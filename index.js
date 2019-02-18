@@ -1,9 +1,10 @@
 class Square {
   constructor (maxX) {
-    this.x = 0
+    this.x = Random.getNumber(0, this.maxX)
     this.y = 0
     this.side = 20
     this.color = Random.getColor()
+    this.speed = Random.getNumber(1, 6)
   }
 
   updateY (maxY) {
