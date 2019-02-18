@@ -90,6 +90,20 @@ class CanvasWrapper {
   }
 }
 
+class Random {
+  static getRandom (min, max) {
+    return min + Math.floor(Math.random() * (max - min))
+  }
+
+  static getRandomcollor () {
+    const c = () => {
+      let hex = Math.floor(Math.random() * 256).toString(16)
+      return ('0' + String(hex)).substr(-2)
+    }
+    return '#' + c() + c() + c()
+  }
+}
+
 const initGame = () => {
   let gameScreen = new GameScreen()
   let maxX = gameScreen.canvasWrapper.width
