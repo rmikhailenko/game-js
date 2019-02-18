@@ -5,13 +5,14 @@ class Square {
     this.side = 20
   }
 
-  updateY () {
+  updateY (maxY) {
     this.y += 1
-    if (this.y >= this.CanvasWrapper.canvas.height) {
+    if (this.y >= maxY) {
       this.y = 0
     }
   }
 }
+
 class GameController {
   constructor (MaxX, MaxY) {
     this.InProgress = false
@@ -20,20 +21,17 @@ class GameController {
     this.MaxPositionSquare = [this.MaxX, this.MaxY]
   }
   addItem () {
-    for (const item of this.Items) {
-      
-    }
+    this.Items.push(new Square())
   }
   moveItems () {
-    for (let i = 0; i < this.Items.length; i++) {
-    }
+    
   }
   checkClick (pX, pY) {
+    if (this.isClickOnSquare(pX, pY)) {
+      this.increaseScore()    
+    }
   }
 
-  isClickOnSquare() {
-    return false
-  }
   increaseScore() {
     this.Score += 1
   }
@@ -44,7 +42,7 @@ class GameScreen {
     this.startBtn = document.getElementById('startGame')
     this.stopBtn = document.getElementById('stopGame')
     this.scoreElement = document.getElementById('score')
-    this.CanvasWrapper = new CanvasWrapper(document.getElementById('canvas'))
+    this.canvasWrapper = new CanvasWrapper(document.getElementById('canvas'))
   }
 
   AddStartEventListener (Listener) {
@@ -56,7 +54,7 @@ class GameScreen {
   AddCanvasEventListener (Listener) {
     this.CanvasWrapper.canvas.addEventListener('click', (event) => {
       let x = event.pageX - this.CanvasWrapper.canvas.offsetLeft
-      let y = event.pageY - this.CanvasWrapper.canvas.offsetLeft
+      let y = event.pageY - this.CanvasWrapper.canvas.offsetTop
       Listener(x, y)
     })
   }
@@ -69,6 +67,9 @@ class GameScreen {
 class CanvasWrapper {
   constructor (canvas) {
     this.canvasElement = canvas
+  }
+  get canvas () {
+    return this.canvasElement
   }
 }
 
