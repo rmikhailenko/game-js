@@ -3,7 +3,7 @@ class Square {
     this.x = 0
     this.y = 0
     this.side = 20
-    this.color = 'FFFFFF'
+    this.color = Random.getColor()
   }
 
   updateY (maxY) {
