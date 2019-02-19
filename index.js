@@ -127,6 +127,33 @@ class Timer {
   }
 }
 
+class Animator {
+  constructor (callback) {
+    this.animateCallback = callback
+    this.animationRunning = false
+    this.requestID = null
+  }
+
+  animate () {
+    if (!this.animationRunning) {
+      window.cancelAnimationFrame(this.requestID)
+      return
+    }
+
+    this.animateCallback()
+    this.requestID = window.requestAnimationFrame(this.animate)
+  }
+
+  start () {
+    this.animationRunning = true
+    this.animate()
+  }
+
+  stop () {
+    this.animationRunning = false
+  }
+}
+
 const initGame = () => {
   let gameScreen = new GameScreen()
   let maxX = gameScreen.canvasWrapper.width
