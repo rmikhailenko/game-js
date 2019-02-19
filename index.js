@@ -46,6 +46,16 @@ class GameController {
   increaseScore () {
     this.Score += 1
   }
+
+  start () {
+    this.InProgress = true
+  }
+
+  stop () {
+    this.InProgress = false
+    this.Items = []
+    this.Score = 0
+  }
 }
 
 class GameScreen {
