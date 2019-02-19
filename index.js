@@ -116,7 +116,7 @@ class Timer {
     clearTimeout(this.timeoutID)
   }
 
-  creatInterval (callback) {
+  createInterval (callback) {
     let delay = 1000
     this.intervalID = setInterval(callback, delay)
   }
