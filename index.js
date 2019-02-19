@@ -128,19 +128,20 @@ class Timer {
 }
 
 class Animator {
-  constructor () {
-    this.animationCallback = null
+  constructor (callback) {
+    this.animateCallback = callback
     this.animationRunning = false
     this.requestID = null
   }
 
   animate () {
-    if (this.animationRunning) {
-      this.animationCallback()
-      this.requestID = window.requestAnimationFrame(animate)
-    } else {
+    if (!this.animationRunning) {
       window.cancelAnimationFrame(this.requestID)
+      return
     }
+
+    this.animateCallback()
+    this.requestID = window.requestAnimationFrame(this.animate)
   }
 
   start () {
