@@ -106,22 +106,24 @@ class Random {
 }
 
 class Timer {
-  constructor (intervalID, timeoutID) {
-    intervalID = 1000
-    timeoutID = Random.getNumber(1000, 2000)
+  constructor () {
+    this.intervalID = null
+    this.timeoutID = null
   }
 
   clear () {
-    clearInterval(this.creatInterval())
-    clearTimeout(this.createTimeout())
+    clearInterval(this.intervalID)
+    clearTimeout(this.timeoutID)
   }
 
-  creatInterval (intervalID) {
-    return setInterval(GameController.addItem(), intervalID)
+  creatInterval (callback) {
+    let delay = 1000
+    this.intervalID = setInterval(callback, delay)
   }
 
-  createTimeout (timeoutID) {
-    return setTimeout(GameController.addItem(), timeoutID)
+  createTimeout (callback) {
+    let delay = Random.GetNumber(1000, 2000)
+    this.timeoutID = setTimeout(callback, delay)
   }
 }
 
