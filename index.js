@@ -105,6 +105,28 @@ class Random {
   }
 }
 
+class Timer {
+  constructor () {
+    this.intervalID = null
+    this.timeoutID = null
+  }
+
+  clear () {
+    clearInterval(this.intervalID)
+    clearTimeout(this.timeoutID)
+  }
+
+  createInterval (callback) {
+    let delay = 1000
+    this.intervalID = setInterval(callback, delay)
+  }
+
+  createTimeout (callback) {
+    let delay = Random.GetNumber(1000, 2000)
+    this.timeoutID = setTimeout(callback, delay)
+  }
+}
+
 const initGame = () => {
   let gameScreen = new GameScreen()
   let maxX = gameScreen.canvasWrapper.width
