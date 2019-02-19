@@ -20,7 +20,15 @@ class GameController {
     this.InProgress = false
     this.Items = []
     this.Score = 0
-    this.MaxPosition = {'x': MaxX, 'y': MaxY}
+    this.MaxPosition = {
+      'x': MaxX,
+      'y': MaxY
+    }
+
+    // Callbacks
+    this.scoreUpdatedCallback = null
+    this.gameStartedCallback = null
+    this.gameStoppedCallback = null
   }
 
   addItem () {
@@ -45,16 +53,33 @@ class GameController {
 
   increaseScore () {
     this.Score += 1
+    this.scoreUpdatedCallback()
   }
 
   start () {
     this.InProgress = true
+    this.gameStartedCallback()
   }
 
   stop () {
     this.InProgress = false
     this.Items = []
     this.Score = 0
+    this.scoreUpdatedCallback()
+    this.gameStoppedCallback()
+  }
+
+  setCallback (callbackName, callback) {
+    switch (callbackName) {
+      case 'onScoreUpdated':
+        this.scoreUpdatedCallback = callback
+        break
+      case 'onGameStarted':
+        this.gameStartedCallback = callback
+        break
+      case 'onGameStopped':
+        this.gameStoppedCallback = callback
+    }
   }
 }
 
