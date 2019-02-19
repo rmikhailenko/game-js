@@ -8,7 +8,7 @@ class Square {
   }
 
   updateY (maxY) {
-    this.y += 1
+    this.y += this.speed
     if (this.y >= maxY) {
       this.y = 0
     }
