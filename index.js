@@ -106,22 +106,22 @@ class Random {
 }
 
 class Timer {
-  constructor (intervalID, timeoutID){
+  constructor (intervalID, timeoutID) {
+    intervalID = 1000
+    timeoutID = Random.getNumber(1000, 2000)
   }
 
   clear () {
-    clearInterval()
+    clearInterval(this.creatInterval())
+    clearTimeout(this.createTimeout())
   }
 
   creatInterval (intervalID) {
-    return setInterval(() => {
-    }, 1000)
+    return setInterval(GameController.addItem(), intervalID)
   }
 
   createTimeout (timeoutID) {
-    return setTimeout(function () {
-
-    }, Random.getNumber(1000, 2000))
+    return setTimeout(GameController.addItem(), timeoutID)
   }
 }
 
