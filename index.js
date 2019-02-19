@@ -29,7 +29,7 @@ class GameController {
 
   moveItems () {
     for (let i = 0; i < this.Items.length; i++) {
-      this.items[i].updateY(this.MaxPosition.x)
+      this.items[i].updateY(this.MaxPosition.y)
     }
   }
 
