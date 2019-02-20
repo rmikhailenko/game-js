@@ -149,6 +149,10 @@ class Random {
     }
     return '#' + getColorPart() + getColorPart() + getColorPart()
   }
+
+  getDrawingContext () {
+    return CanvasWrapper.canvas.getContext('2d')
+  }
 }
 
 class Timer {
