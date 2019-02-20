@@ -135,6 +135,10 @@ class CanvasWrapper {
   get canvas () {
     return this.canvasElement
   }
+
+  getDrawingContext () {
+    this.canvasElement.getContext('2d')
+  }
 }
 
 class Random {
@@ -148,10 +152,6 @@ class Random {
       return ('0' + String(hex)).substr(-2)
     }
     return '#' + getColorPart() + getColorPart() + getColorPart()
-  }
-
-  getDrawingContext () {
-    return CanvasWrapper.canvas.getContext('2d')
   }
 }
 
