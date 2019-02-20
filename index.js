@@ -31,8 +31,8 @@ class GameController {
     this.gameStoppedCallback = null
   }
 
-  addItem () {
-    this.Items.push(new Square())
+  addItem (square) {
+    this.Items.push(square)
   }
 
   moveItems () {
