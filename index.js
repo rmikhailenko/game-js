@@ -189,6 +189,15 @@ class Animator {
   }
 }
 
+class CanvasRect {
+  constructor (square) {
+    this.x = square.x
+    this.y = square.y
+    this.side = square.side
+    this.color = square.color
+  }
+}
+
 const initGame = () => {
   let gameScreen = new GameScreen()
   let maxX = gameScreen.canvasWrapper.width
