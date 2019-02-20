@@ -136,14 +136,20 @@ class CanvasWrapper {
     return this.canvasElement
   }
 
-  getDrawingContext () {
+  get drawingContext () {
     this.canvasElement.getContext('2d')
   }
 
-  drawRect (rect) {
-    this.getDrawingContext()
-    rect.fillStyle = Square.color
-    rect.fillRct(CanvasRect)
+  drawRect () {
+    let rect = new CanvasRect()
+    let ctx = this.drawingContext()
+    ctx.fillStyle = rect.color
+    ctx.fillRect(rect.x, rect.y, rect.side, rect.side)
+  }
+
+  clear () {
+    this.drawRect(this.rect)
+    clearRect(0, 0, this.width, this.height)
   }
 }
 
