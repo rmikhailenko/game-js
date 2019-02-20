@@ -32,7 +32,7 @@ class GameController {
   }
 
   addItem () {
-    this.Items.push(new Square(this.MaxPosition.x))
+    this.Items.push(new Square(Square.maxX))
   }
 
   moveItems () {
