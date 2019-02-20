@@ -100,7 +100,7 @@ class GameScreen {
   }
 
   AddCanvasEventListener (listener) {
-    this.CanvasWrapper.canvas.addEventListener('click', (event) => {
+    this.canvasWrapper.canvas.addEventListener('click', (event) => {
       let x = event.pageX - this.canvasWrapper.offsetX
       let y = event.pageY - this.canvasWrapper.offsetY
       listener(x, y)
