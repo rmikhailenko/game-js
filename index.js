@@ -48,22 +48,18 @@ class GameController {
       let matchY = element.y <= y && y <= element.y + element.side
       if (matchX && matchY) {
         return this.Items.i
-      } else {
-        return -1
       }
     }
+    return -1
   }
 
   checkClick (x, y) {
-    let deleteItem = this.getMatchingSquareIndex(x, y)
-    if (deleteItem === -1) {
-      break
-    } else {
-      this.Items.splice(deleteItem, 1)
+    let matchedIndex = this.getMatchingSquareIndex(x, y)
+
+    if (matchedIndex !== -1) {
+      this.Items.splice(matchedIndex, 1)
+      this.increaseScore()
     }
-  }
-  isClickOnSquare (pX, pY) {
-    return false
   }
 
   increaseScore () {
