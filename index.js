@@ -139,6 +139,12 @@ class CanvasWrapper {
   getDrawingContext () {
     this.canvasElement.getContext('2d')
   }
+
+  drawRect (rect) {
+    this.getDrawingContext()
+    rect.fillStyle = Square.color
+    rect.fillRct(CanvasRect)
+  }
 }
 
 class Random {
