@@ -41,12 +41,27 @@ class GameController {
     }
   }
 
-  checkClick (pX, pY) {
-    if (this.isClickOnSquare(pX, pY)) {
-      this.increaseScore()
+  getMatchingSquareIndex (x, y) {
+    for (let i = 0; i < this.Items.length; i++) {
+      let element = this.Items.i
+      let matchX = element.x <= x && x <= element.x + element.side
+      let matchY = element.y <= y && y <= element.y + element.side
+      if (matchX && matchY) {
+        return element
+      } else {
+        return -1
+      }
     }
   }
 
+  checkClick (x, y) {
+    let deleteItem = this.getMatchingSquareIndex(x, y)
+    if (deleteItem === -1) {
+      break
+    } else {
+      this.Items.splice(deleteItem, 1)
+    }
+  }
   isClickOnSquare (pX, pY) {
     return false
   }
