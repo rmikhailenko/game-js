@@ -43,11 +43,11 @@ class GameController {
 
   getMatchingSquareIndex (x, y) {
     for (let i = 0; i < this.Items.length; i++) {
-      let element = this.Items.i
+      let element = this.Items[i]
       let matchX = element.x <= x && x <= element.x + element.side
       let matchY = element.y <= y && y <= element.y + element.side
       if (matchX && matchY) {
-        return element
+        return this.Items.i
       } else {
         return -1
       }
