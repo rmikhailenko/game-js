@@ -41,14 +41,25 @@ class GameController {
     }
   }
 
-  checkClick (pX, pY) {
-    if (this.isClickOnSquare(pX, pY)) {
-      this.increaseScore()
+  getMatchingSquareIndex (x, y) {
+    for (let i = 0; i < this.Items.length; i++) {
+      let element = this.Items[i]
+      let matchX = element.x <= x && x <= element.x + element.side
+      let matchY = element.y <= y && y <= element.y + element.side
+      if (matchX && matchY) {
+        return i
+      }
     }
+    return -1
   }
 
-  isClickOnSquare (pX, pY) {
-    return false
+  checkClick (x, y) {
+    let matchedIndex = this.getMatchingSquareIndex(x, y)
+
+    if (matchedIndex !== -1) {
+      this.Items.splice(matchedIndex, 1)
+      this.increaseScore()
+    }
   }
 
   increaseScore () {
