@@ -47,7 +47,7 @@ class GameController {
       let matchX = element.x <= x && x <= element.x + element.side
       let matchY = element.y <= y && y <= element.y + element.side
       if (matchX && matchY) {
-        return this.Items.i
+        return i
       }
     }
     return -1
