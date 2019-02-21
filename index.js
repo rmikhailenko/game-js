@@ -24,6 +24,7 @@ class GameController {
       'x': MaxX,
       'y': MaxY
     }
+    this.maxItemCount = 20
 
     // Callbacks
     this.scoreUpdatedCallback = null
@@ -58,13 +59,13 @@ class GameController {
 
     if (matchedIndex !== -1) {
       this.Items.splice(matchedIndex, 1)
-      this.increaseScore()
+      this.increaseScore(this.Score)
     }
   }
 
   increaseScore () {
     this.Score += 1
-    this.scoreUpdatedCallback()
+    this.scoreUpdatedCallback(this.Score)
   }
 
   start () {
@@ -76,7 +77,7 @@ class GameController {
     this.InProgress = false
     this.Items = []
     this.Score = 0
-    this.scoreUpdatedCallback()
+    this.scoreUpdatedCallback(this.Score)
     this.gameStoppedCallback()
   }
 
@@ -92,6 +93,12 @@ class GameController {
         this.gameStoppedCallback = callback
     }
   }
+
+  isAddItemAlowed () {
+  //   if (game.Items.length >= this.maxItemCount) {
+  //       return 
+  //     }
+  }
 }
 
 class GameScreen {
@@ -100,10 +107,6 @@ class GameScreen {
     this.stopBtn = document.getElementById('stopGame')
     this.scoreElement = document.getElementById('score')
     this.canvasWrapper = new CanvasWrapper(document.getElementById('canvas'))
-  }
-
-  AddStartEventListener (listener) {
-    this.startBtn.addEventListener('click', listener)
   }
 
   AddStopEventListener (listener) {
@@ -182,7 +185,7 @@ class Timer {
   }
 
   createTimeout (callback) {
-    let delay = Random.GetNumber(1000, 2000)
+    let delay = Random.getNumber(1000, 2000)
     this.timeoutID = setTimeout(callback, delay)
   }
 }
@@ -201,7 +204,7 @@ class Animator {
     }
 
     this.animateCallback()
-    this.requestID = window.requestAnimationFrame(this.animate)
+    this.requestID = window.requestAnimationFrame(() => this.animate())
   }
 
   start () {
@@ -225,12 +228,53 @@ class CanvasRect {
 
 const initGame = () => {
   let gameScreen = new GameScreen()
-  let maxX = gameScreen.canvasWrapper.width
-  let maxY = gameScreen.canvasWrapper.height
-  let game = new GameController(maxX, maxY)
-  gameScreen.addStartEventListener(game.start)
-  gameScreen.addStopEventListener(game.stop)
-  gameScreen.addClickEventListener(game.checkClick)
+  let game = new GameController(
+    gameScreen.canvasWrapper.width,
+    gameScreen.canvasWrapper.height
+  )
+  let timer = new Timer()
+  let animator = new Animator(() => {
+    // clean game screen
+    gameScreen.сanvasWrapper.clear()
+    let items = game.Items
+    for (let i = 0; i < items.length; i++) {
+      let rect = new CanvasRect(items[i])
+      gameScreen.canvasWrapper.drawRect(rect)
+    }
+    game.moveItems()
+  })
+
+  game.setCallback('onScoreUpdated', (value) => gameScreen.updateScoreElementValue(value))
+
+  game.setCallback('onGameStopped', () => {
+    // first step
+    animator.stop()
+
+    // second step
+    timer.clear()
+  })
+
+  game.setCallback('onGameStarted', () => {
+    game.addItem(new Square(game.MaxPosition.x))
+    animator.start()
+    timer.createInterval(() => {
+      // const maxSquarecCounts = 20
+      // if (game.Items.length >= maxSquarecCounts) {
+      //   return 
+      // }
+
+      let maxItemReached = false
+      if (!maxItemReached) {
+        timer.createTimeout(() => {
+          game.addItem(new Square(game.MaxPosition.x))
+        })
+      }
+    })
+
+  // connect game screen buttons with game controller
+  gameScreen.addStartEventListener(() => game.start())
+  gameScreen.addStopEventListener(() => game.stop())
+  gameScreen.addClickEventListener((x, y) => game.checkClick(x, y))
 }
 
 document.body.onload = initGame
