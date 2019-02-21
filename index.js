@@ -38,7 +38,7 @@ class GameController {
 
   moveItems () {
     for (let i = 0; i < this.Items.length; i++) {
-      this.items[i].updateY(this.MaxPosition.y)
+      this.Items[i].updateY(this.MaxPosition.y)
     }
   }
 
@@ -140,17 +140,17 @@ class CanvasWrapper {
   }
 
   get drawingContext () {
-    this.canvasElement.getContext('2d')
+    return this.canvasElement.getContext('2d')
   }
 
   drawRect (rect) {
-    let ctx = this.drawingContext()
+    let ctx = this.drawingContext
     ctx.fillStyle = rect.color
     ctx.fillRect(rect.x, rect.y, rect.side, rect.side)
   }
 
   clear () {
-    this.drawingContext().clearRect(0, 0, this.width, this.height)
+    this.drawingContext.clearRect(0, 0, this.width, this.height)	
   }
 }
 
