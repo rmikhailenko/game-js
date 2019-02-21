@@ -150,7 +150,7 @@ class CanvasWrapper {
   }
   
   clear () {	
-    this.drawingContext().clearRect(0, 0, this.width, this.height)	
+    this.drawingContext.clearRect(0, 0, this.width, this.height)	
   }
 }
 
