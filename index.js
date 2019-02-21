@@ -194,7 +194,7 @@ class Animator {
   constructor (callback) {
     this.animateCallback = callback
     this.animationRunning = false
-    this.requestID = window.requestAnimationFrame(() => this.animate())
+    this.requestID = null
   }
 
   animate () {
@@ -204,7 +204,7 @@ class Animator {
     }
 
     this.animateCallback()
-    this.requestID = window.requestAnimationFrame(this.animate)
+    this.requestID = window.requestAnimationFrame(() => this.animate())
   }
 
   start () {
