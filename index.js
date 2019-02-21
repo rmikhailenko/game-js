@@ -24,6 +24,7 @@ class GameController {
       'x': MaxX,
       'y': MaxY
     }
+    this.maxItemCount = 20
 
     // Callbacks
     this.scoreUpdatedCallback = null
@@ -76,7 +77,7 @@ class GameController {
     this.InProgress = false
     this.Items = []
     this.Score = 0
-    this.scoreUpdatedCallback()
+    this.scoreUpdatedCallback(this.Score)
     this.gameStoppedCallback()
   }
 
@@ -92,6 +93,12 @@ class GameController {
         this.gameStoppedCallback = callback
     }
   }
+
+  // isAddItemAlowed () {
+  //   if (game.Items.length >= this.maxItemCount) {
+  //       return 
+  //     }
+  // }
 }
 
 class GameScreen {
@@ -100,10 +107,6 @@ class GameScreen {
     this.stopBtn = document.getElementById('stopGame')
     this.scoreElement = document.getElementById('score')
     this.canvasWrapper = new CanvasWrapper(document.getElementById('canvas'))
-  }
-
-  AddStartEventListener (listener) {
-    this.startBtn.addEventListener('click', listener)
   }
 
   AddStopEventListener (listener) {
@@ -227,7 +230,55 @@ const initGame = () => {
   let gameScreen = new GameScreen()
   let maxX = gameScreen.canvasWrapper.width
   let maxY = gameScreen.canvasWrapper.height
-  let game = new GameController(maxX, maxY)
+  let game = new GameController(
+    gameScreen.canvasWrapper.width,
+    gameScreen.canvasWrapper.height
+  )
+  let timer = new Timer()
+  game.setCallback('onScoreUpdate', gameScreen.updateScoreElementValue)
+
+  game.setCallback('onGameStopped', () => {
+    // first step
+    animator.stop()
+
+    // second step
+    timer.clear()
+  })
+
+  game.setCallback('onGameStarted', () => {
+    game.addItem(new Square(game.MaxPosition.x))
+    animator.start()
+    timer.createInterval(() => {
+      // const maxSquarecCounts = 20
+      // if (game.Items.length >= maxSquarecCounts) {
+      //   return 
+      // }
+
+      let maxItemReached = false
+      if (!maxItemReached) {
+        timer.createTimeout(() => {
+          game.addItem(new Square(game.MaxPosition.x))
+        })
+      }
+    })
+
+    timer.createTimeout(() => {
+      game.addItem(new Square(game.MaxPosition.x))
+    })
+  })
+
+  let animator = new Animator(() => {
+    // clean game screen
+    gameScreen.сanvasWrapper.clear()
+    let items = game.Items
+    for (let i = 0; i < items.length; i++) {
+      let rect = new CanvasRect(items[i])
+      gameScreen.canvasWrapper.drawRect(rect)
+      game.moveItems()
+    }
+  })
+
+  // connect game screen buttons with game controller
   gameScreen.addStartEventListener(game.start)
   gameScreen.addStopEventListener(game.stop)
   gameScreen.addClickEventListener(game.checkClick)
