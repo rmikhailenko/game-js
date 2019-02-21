@@ -148,8 +148,8 @@ class CanvasWrapper {
     ctx.fillStyle = rect.color
     ctx.fillRect(rect.x, rect.y, rect.side, rect.side)
   }
-  
-  clear () {	
+
+  clear () {
     this.drawingContext.clearRect(0, 0, this.width, this.height)	
   }
 }
