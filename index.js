@@ -71,10 +71,9 @@ class GameController {
   start () {
     if (this.InProgress) {
       return
-    } else {
-      this.InProgress = true
-      this.gameStartedCallback()
     }
+    this.InProgress = true
+    this.gameStartedCallback()
   }
 
   stop () {
