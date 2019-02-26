@@ -72,12 +72,15 @@ class GameController {
     if (this.InProgress) {
       return
     } else {
-      this.gameStartedCallback()
       this.InProgress = true
+      this.gameStartedCallback()
     }
   }
 
   stop () {
+    if (!this.inProgress) {
+      return
+    }
     this.InProgress = false
 
     this.Items = []
