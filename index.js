@@ -69,18 +69,17 @@ class GameController {
   }
 
   start () {
-    this.InProgress = true
-    if (!this.InProgress) {
+    if (this.InProgress) {
       return
+    } else {
+      this.gameStartedCallback()
+      this.InProgress = true
     }
-    this.gameStartedCallback()
   }
 
   stop () {
     this.InProgress = false
-    if (this.InProgress) {
-      return
-    }
+
     this.Items = []
     this.Score = 0
     this.scoreUpdatedCallback(this.Score)
@@ -102,7 +101,7 @@ class GameController {
 
   isAddItemAlowed () {
   //   if (game.Items.length >= this.maxItemCount) {
-  //       return 
+  //       return
   //     }
   }
 }
@@ -160,11 +159,7 @@ class CanvasWrapper {
   }
 
   clear () {
-<<<<<<< Updated upstream
-    this.drawingContext().clearRect(0, 0, this.width, this.height)
-=======
     this.drawingContext.clearRect(0, 0, this.width, this.height)
->>>>>>> Stashed changes
   }
 }
 
@@ -274,7 +269,7 @@ const initGame = () => {
     timer.createInterval(() => {
       // const maxSquarecCounts = 20
       // if (game.Items.length >= maxSquarecCounts) {
-      //   return 
+      //    return
       // }
 
       let maxItemReached = false
