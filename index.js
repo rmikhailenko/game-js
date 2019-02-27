@@ -1,8 +1,8 @@
 class Square {
   constructor (maxX) {
-    this.x = Random.getNumber(0, maxX)
-    this.y = 0
     this.side = Random.getNumber(30, 60)
+    this.x = Random.getNumber(0, maxX - this.side)
+    this.y = -this.side
     this.color = Random.getColor()
     this.speed = Random.getNumber(1, 7)
   }
@@ -10,7 +10,7 @@ class Square {
   updateY (maxY) {
     this.y += this.speed
     if (this.y >= maxY) {
-      this.y = 0
+      this.y = -this.side
     }
   }
 }
@@ -69,12 +69,19 @@ class GameController {
   }
 
   start () {
+    if (this.InProgress) {
+      return
+    }
     this.InProgress = true
     this.gameStartedCallback()
   }
 
   stop () {
+    if (!this.inProgress) {
+      return
+    }
     this.InProgress = false
+
     this.Items = []
     this.Score = 0
     this.scoreUpdatedCallback(this.Score)
@@ -96,7 +103,7 @@ class GameController {
 
   isAddItemAlowed () {
   //   if (game.Items.length >= this.maxItemCount) {
-  //       return 
+  //       return
   //     }
   }
 }
@@ -109,11 +116,15 @@ class GameScreen {
     this.canvasWrapper = new CanvasWrapper(document.getElementById('canvas'))
   }
 
-  AddStopEventListener (listener) {
+  addStartEventListener (listener) {
+    this.startBtn.addEventListener('click', listener)
+  }
+
+  addStopEventListener (listener) {
     this.stopBtn.addEventListener('click', listener)
   }
 
-  AddCanvasEventListener (listener) {
+  addCanvasEventListener (listener) {
     this.canvasWrapper.canvas.addEventListener('click', (event) => {
       let x = event.pageX - this.canvasWrapper.offsetX
       let y = event.pageY - this.canvasWrapper.offsetY
@@ -150,7 +161,7 @@ class CanvasWrapper {
   }
 
   clear () {
-    this.drawingContext.clearRect(0, 0, this.width, this.height)	
+    this.drawingContext.clearRect(0, 0, this.width, this.height)
   }
 }
 
@@ -235,7 +246,7 @@ const initGame = () => {
   let timer = new Timer()
   let animator = new Animator(() => {
     // clean game screen
-    gameScreen.сanvasWrapper.clear()
+    gameScreen.canvasWrapper.clear()
     let items = game.Items
     for (let i = 0; i < items.length; i++) {
       let rect = new CanvasRect(items[i])
@@ -260,7 +271,7 @@ const initGame = () => {
     timer.createInterval(() => {
       // const maxSquarecCounts = 20
       // if (game.Items.length >= maxSquarecCounts) {
-      //   return 
+      //    return
       // }
 
       let maxItemReached = false
@@ -270,11 +281,12 @@ const initGame = () => {
         })
       }
     })
+  })
 
   // connect game screen buttons with game controller
   gameScreen.addStartEventListener(() => game.start())
   gameScreen.addStopEventListener(() => game.stop())
-  gameScreen.addClickEventListener((x, y) => game.checkClick(x, y))
+  gameScreen.addCanvasEventListener((x, y) => game.checkClick(x, y))
 }
 
 document.body.onload = initGame
